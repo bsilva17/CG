@@ -1,7 +1,7 @@
 
 
 //THREEJS RELATED VARIABLES
-let scene,scene1,renderer,camera,camera1,texture,cube
+let scene,scene1,renderer,camera,camera1,texture,cube,rock
 var clock = new THREE.Clock();
 var keyboard = new THREEx.KeyboardState();
 
@@ -59,9 +59,7 @@ function onWindowResize() {
     renderer.setSize( window.innerWidth, window.innerHeight );
 
 }
-// movement - please calibrate these values
-var xSpeed = 0.2;
-var ySpeed = 0.2;
+
 
 document.addEventListener("keydown", onDocumentKeyDown, false);
 
@@ -157,32 +155,42 @@ scene.add( cube );
 }
 function createRock(){
 
-    const geometry = new THREE.SphereGeometry( 0.5, 3, 3);
-    const material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
-    const rock = new THREE.Mesh( geometry, material );
-    scene.add( rock );
-
+    
+   const geometry = new THREE.SphereGeometry( 0.5, 5, 5);
+        let tex = new THREE.TextureLoader().load("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ce49d94a-caca-45f6-b5dc-f2e742b1a409/d531x8m-220d1d0e-ec01-4bea-82cd-73456bc41c5b.jpg/v1/fill/w_1024,h_768,q_75,strp/rock_texture_by_roskvape_d531x8m-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3siaGVpZ2h0IjoiPD03NjgiLCJwYXRoIjoiXC9mXC9jZTQ5ZDk0YS1jYWNhLTQ1ZjYtYjVkYy1mMmU3NDJiMWE0MDlcL2Q1MzF4OG0tMjIwZDFkMGUtZWMwMS00YmVhLTgyY2QtNzM0NTZiYzQxYzViLmpwZyIsIndpZHRoIjoiPD0xMDI0In1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.IDXqoVdNqYsKtildrmhB1LrRhhCPG7H-312J8aYnWhg")
+        const material = new THREE.MeshBasicMaterial( {map: tex} );
+         rock = new THREE.Mesh( geometry, material );
+        rock.position.set(Math.random()*-2,0,cube.position.z-10)
+        scene.add( rock )
+    
+    
 }
 
 function onDocumentKeyDown(event) {
-    var delta = clock.getDelta(); // seconds.
-	var moveDistance = 2 * delta; // 200 pixels per second
-	var rotateAngle = Math.PI / 2 * delta;   // pi/2 radians (90 degrees) per second
+    var Speed = 0.2;
+   
+
+
+	
 	
 	// local transformations
 
 	// move forwards/backwards/left/right
-	if ( keyboard.pressed("W") )
-		  cube.translateZ( -moveDistance );
+    if ( keyboard.pressed("W") )
+    console.log(cube.position.z)
+    console.log(rock.position.z)
+		  cube.translateZ( -Speed );
 	if ( keyboard.pressed("S") )
-		cube.translateZ(  moveDistance );
+		cube.translateZ(  Speed );
 	if ( keyboard.pressed("A") )
-		 cube.translateX( -moveDistance );
+		 cube.translateX( -Speed );
 	if ( keyboard.pressed("D") )
-		cube.translateX(  moveDistance );	
-
+		cube.translateX(  Speed );	
+    if(cube.position.z<rock.position.z){
+        createRock()
+    }
 	
-	
+        
     animate();
 };
 
