@@ -1,5 +1,5 @@
 //THREEJS RELATED VARIABLES
-let scene,scene1,renderer,camera,camera1,texture,cube,cube1,rock,rock1,plane,plane1,road,road1,collision,collision1,object,tree, tree1
+let scene,scene1,renderer,camera,camera1,texture,cube,cube1,rock,rock1,plane,plane1,road,road1,collision,collision1,object,tree,treee3, tree1,tree2,stick,stick1
 var clock = new THREE.Clock();
 var keyboard = new THREEx.KeyboardState();
 
@@ -33,7 +33,7 @@ function createScene(){
     scene.background = new THREE.Color( 0x8FBCD4 );
     scene1.background = new THREE.Color( 0x8FBCD4 );
 
-    camera = new THREE.PerspectiveCamera( 45,(window.innerWidth/2)/ (window.innerHeight), 1, 2000 );
+    camera = new THREE.PerspectiveCamera( 45,(window.innerWidth/2)/ window.innerHeight, 1, 2000 );
     camera.position.set(-0.5,0,0)
     camera1 = new THREE.PerspectiveCamera( 45, (window.innerWidth/2)/ window.innerHeight, 1, 2000 );
     camera1.position.set(-0.5,0,0)
@@ -51,8 +51,7 @@ function createScene(){
 //FUNÇÃO QUE RE AJUSTA AS CENAS
 function onWindowResize() {
 
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
+   
 
     renderer.setSize( window.innerWidth, window.innerHeight );
 
@@ -65,7 +64,7 @@ document.addEventListener("keydown", onDocumentKeyDown, false);
 //CRIAÇÃO DA RELVA
 function createGround() {
     const geometry = new THREE.PlaneBufferGeometry( 1000, 1000);
-    let tex = new THREE.TextureLoader().load("https://upload.wikimedia.org/wikipedia/commons/4/4c/Grass_Texture.png")
+    let tex = new THREE.TextureLoader().load("https://st.depositphotos.com/1217569/2471/i/450/depositphotos_24714185-stock-photo-green-grass-texture.jpg")
 tex.anisotropy = 32
 tex.repeat.set(100, 100) //REPETE A TEXTURA A CADA BLOCO DE 100X100 PXS
 tex.wrapT = THREE.RepeatWrapping
@@ -86,7 +85,7 @@ scene.add( plane );
 //
 function createGround1() {
     const geometry = new THREE.PlaneBufferGeometry( 1000, 1000);
-    let tex = new THREE.TextureLoader().load("https://upload.wikimedia.org/wikipedia/commons/4/4c/Grass_Texture.png")
+    let tex = new THREE.TextureLoader().load("https://st.depositphotos.com/1217569/2471/i/450/depositphotos_24714185-stock-photo-green-grass-texture.jpg")
 tex.anisotropy = 32
 tex.repeat.set(100, 100)
 tex.wrapT = THREE.RepeatWrapping
@@ -177,7 +176,8 @@ function createRock(){
         let tex = new THREE.TextureLoader().load("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ce49d94a-caca-45f6-b5dc-f2e742b1a409/d531x8m-220d1d0e-ec01-4bea-82cd-73456bc41c5b.jpg/v1/fill/w_1024,h_768,q_75,strp/rock_texture_by_roskvape_d531x8m-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3siaGVpZ2h0IjoiPD03NjgiLCJwYXRoIjoiXC9mXC9jZTQ5ZDk0YS1jYWNhLTQ1ZjYtYjVkYy1mMmU3NDJiMWE0MDlcL2Q1MzF4OG0tMjIwZDFkMGUtZWMwMS00YmVhLTgyY2QtNzM0NTZiYzQxYzViLmpwZyIsIndpZHRoIjoiPD0xMDI0In1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.IDXqoVdNqYsKtildrmhB1LrRhhCPG7H-312J8aYnWhg")
         const material = new THREE.MeshBasicMaterial( {map: tex} );
          rock = new THREE.Mesh( geometry, material );
-        rock.position.set(Math.random()*-2,0,cube.position.z-25)
+         
+        rock.position.set(Math.random()*-2,0,cube.position.z-15)
         scene.add( rock )
 }
 function createRock1(){
@@ -194,53 +194,113 @@ function createRock1(){
  }
  
  function createTree(){
-    const geometry = new THREE.BoxGeometry( 2, 2, 1 );
+    let geometry = new THREE.ConeGeometry( 1, 2.5, 6 );
+   
+    
     let tex = new THREE.TextureLoader().load("Texture/81278063-fresh-green-leaf-bush-texture.jpg")
-        const material = new THREE.MeshBasicMaterial( {map: tex} );
+        let material = new THREE.MeshBasicMaterial( {map: tex} );
+        tree = new THREE.Mesh( geometry, material );
+     tree.position.set(0,2,0)
+         geometry = new THREE.BoxGeometry( 0.5, 2, 1 );
+    
+         material = new THREE.MeshBasicMaterial( {color: 0x8b4513} );
+         stick = new THREE.Mesh(geometry, material)
+        stick.position.set(-3.7,-1,cube.position.z-25)
+        stick.add(tree)
 
     
-     tree = new THREE.Mesh( geometry, material );
-     tree.position.set(-5,-1,cube.position.z-25)
-    scene.add( tree );
-    tree = new THREE.Mesh( geometry, material );
-    tree.position.set(5,-1,cube.position.z-35)
-    scene.add( tree);
+    scene.add( stick);
+     geometry = new THREE.BoxGeometry( 1.5, 1, 2 );
+     tex = new THREE.TextureLoader().load("Texture/81278063-fresh-green-leaf-bush-texture.jpg")
+         material = new THREE.MeshBasicMaterial( {map: tex} );
+    treee3 = new THREE.Mesh( geometry, material );
+    treee3.position.set(2.7,0,cube.position.z-35)
+    geometry = new THREE.BoxGeometry( 0.5, 2, 1 );
+    
+         material = new THREE.MeshBasicMaterial( {color: 0x8b4513} );
+         stick1 = new THREE.Mesh(geometry, material)
+        stick1.position.set(0,-1,-0.2)
+    treee3.add(stick1)
+    scene.add( treee3);
+ 
+ 
  }
  function createTree1(){
-    const geometry = new THREE.BoxGeometry( 1, 2, 1 );
+     let geometry = new THREE.ConeGeometry( 1, 2.5, 6 );
+   
+    
     let tex = new THREE.TextureLoader().load("Texture/81278063-fresh-green-leaf-bush-texture.jpg")
-        const material = new THREE.MeshBasicMaterial( {map: tex} );
+        let material = new THREE.MeshBasicMaterial( {map: tex} );
+        tree1 = new THREE.Mesh( geometry, material );
+     tree1.position.set(0,2,0)
+         geometry = new THREE.BoxGeometry( 0.5, 2, 1 );
+    
+         material = new THREE.MeshBasicMaterial( {color: 0x8b4513} );
+         stick = new THREE.Mesh(geometry, material)
+        stick.position.set(-2.5,-1,cube1.position.z-25)
+        stick.add(tree1)
 
     
-     tree1 = new THREE.Mesh( geometry, material );
-     tree1.position.set(-2.7,-1,cube1.position.z-25)
-    scene1.add( tree1);
-    tree1 = new THREE.Mesh( geometry, material );
-    tree1.position.set(2.7,-1,cube1.position.z-35)
-    scene1.add( tree1);
+    scene1.add( stick);
+     geometry = new THREE.BoxGeometry( 1.5, 1, 2 );
+     tex = new THREE.TextureLoader().load("Texture/81278063-fresh-green-leaf-bush-texture.jpg")
+         material = new THREE.MeshBasicMaterial( {map: tex} );
+    tree2 = new THREE.Mesh( geometry, material );
+    tree2.position.set(2.7,0,cube1.position.z-35)
+    geometry = new THREE.BoxGeometry( 0.5, 2, 1 );
+    
+         material = new THREE.MeshBasicMaterial( {color: 0x8b4513} );
+         stick1 = new THREE.Mesh(geometry, material)
+        stick1.position.set(0,-1,-0.2)
+    tree2.add(stick1)
+    scene1.add( tree2);
  }
  
 
 
 //CONTROLOS
 function onDocumentKeyDown(event) {
-    var Speed = 0.2;	
+    var Speed = 0.02;
+    var keyCode = event.which;	
 	// local transformations
 
-	// move forwards/backwards/left/right
+	// move left/right
     ;
-	
+	if(collision==false){
+        if(keyCode==65){
+            cube.translateX( -Speed );
+            if(cube.position.x<-2.2){
+                cube.position.x=-2.2
+            }
+        }
+        if(keyCode==68){
+            cube.translateX( Speed );
+            if(cube.position.x>0.4){
+                cube.position.x=0.4
+            }
+        }
+    }
 		
-        if ( keyCode==32 )
+        if ( keyCode==32 ){
     cube.position.set(0,0,0 );
-    if ( keyCode==13 )
-    cube1.position.set(0,-1,0 );
+    rock.geometry.dispose();
+        rock.material.dispose();
+        scene.remove( rock );
+        createRock()}
+    if ( keyCode==13 ){
+    cube1.position.set(0,0,0 );
+    rock1.geometry.dispose();
+        rock1.material.dispose();
+        scene1.remove( rock1 );
+        createRock1()
+    }
 if(collision1==false){
-	if ( keyCode==37 ){
+    
+if ( keyCode==37 ){
         cube1.translateX( -Speed );
         if(cube1.position.x<-1.2)
         {cube1.position.x=-1.2}
-    }
+}
     
 if ( keyCode==39 ){
     cube1.translateX(  Speed );
@@ -278,11 +338,13 @@ camera1.lookAt(cube1.position);
 }
 
 
+
+
 //FUNÇÃO DE ANIMAÇÃO
 function animate() {
     // render
     renderer.setViewport(0, 0, window.innerWidth/2, window.innerHeight)
-    renderer.setScissor( 0, 0, window.innerWidth/2, window.innerHeight );
+    renderer.setScissor( 0, 0, window.innerWidth/2, window.innerHeight  );
 				renderer.render( scene, camera );
 
                 renderer.setViewport(window.innerWidth/2, 0, window.innerWidth/2, window.innerHeight)
@@ -296,6 +358,8 @@ uptadePlane()
 uptadePlane1()
 checkCollisions()
 checkCollisions1()
+
+
 
 
 
@@ -317,7 +381,7 @@ function uptadePlane(){
         scene.remove( rock );
         createRock()
     }
-    if(cube.position.z+5<tree.position.z){
+    if(cube.position.z+5<treee3.position.z){
         
         createTree()
     }
@@ -345,7 +409,7 @@ rock1.material.dispose();
 scene1.remove( rock1 );
         createRock1()
     }
-    if(cube1.position.z+5<tree1.position.z){
+    if(cube1.position.z+5<tree2.position.z){
         
         createTree1()
     }
