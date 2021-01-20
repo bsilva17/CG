@@ -1,5 +1,3 @@
-
-
 //THREEJS RELATED VARIABLES
 let scene,scene1,renderer,camera,camera1,texture,cube,cube1,rock,rock1,plane,plane1,road,road1,collision,collision1,object,tree, tree1
 var clock = new THREE.Clock();
@@ -28,7 +26,7 @@ window.onload = function init() {
 } 
 
 
-
+//FUNÇÃO QUE CRIA AS DUAS CENAS
 function createScene(){
     scene = new THREE.Scene();
     scene1= new THREE.Scene();
@@ -47,13 +45,10 @@ function createScene(){
     
 
     document.getElementById('world').appendChild(renderer.domElement);
-
-
-    
 } 
 
 
-
+//FUNÇÃO QUE RE AJUSTA AS CENAS
 function onWindowResize() {
 
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -67,11 +62,12 @@ function onWindowResize() {
 document.addEventListener("keydown", onDocumentKeyDown, false);
 
 
+//CRIAÇÃO DA RELVA
 function createGround() {
     const geometry = new THREE.PlaneBufferGeometry( 1000, 1000);
     let tex = new THREE.TextureLoader().load("https://upload.wikimedia.org/wikipedia/commons/4/4c/Grass_Texture.png")
 tex.anisotropy = 32
-tex.repeat.set(100, 100)
+tex.repeat.set(100, 100) //REPETE A TEXTURA A CADA BLOCO DE 100X100 PXS
 tex.wrapT = THREE.RepeatWrapping
 tex.wrapS = THREE.RepeatWrapping
 
@@ -84,8 +80,10 @@ const material = new THREE.MeshBasicMaterial( { map: tex })
 
 
 scene.add( plane );
-
 }
+
+
+//
 function createGround1() {
     const geometry = new THREE.PlaneBufferGeometry( 1000, 1000);
     let tex = new THREE.TextureLoader().load("https://upload.wikimedia.org/wikipedia/commons/4/4c/Grass_Texture.png")
@@ -103,8 +101,10 @@ const material = new THREE.MeshBasicMaterial( { map: tex })
 
 
 scene1.add( plane1 );
-
 }
+
+
+//CRIAÇÃO DA ESTRADA
 function createRoad(){
     const geometry = new THREE.PlaneGeometry( 4, 1000)
     let tex = new THREE.TextureLoader().load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRp3OYZMCOIwkI91YS_xz5njgnaPyaVnw8bow&usqp=CAU")
@@ -123,6 +123,9 @@ tex.wrapS = THREE.RepeatWrapping
     
     scene.add(road)
 }
+
+
+//
 function createRoad1(){
     const geometry = new THREE.PlaneGeometry( 4, 1000)
     let tex = new THREE.TextureLoader().load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRp3OYZMCOIwkI91YS_xz5njgnaPyaVnw8bow&usqp=CAU")
@@ -141,6 +144,9 @@ tex.wrapS = THREE.RepeatWrapping
     
     scene1.add(road1)
 }
+
+
+//CRIAÇÃO DO CARRO
 function createCar(){
     const geometry = new THREE.BoxGeometry( 1, 1, 1 );
     
@@ -149,6 +155,9 @@ function createCar(){
  cube = new THREE.Mesh( geometry, material );
 scene.add( cube );
 }
+
+
+//CRIAÇÃO
 function createCar1(){
   
 
@@ -158,6 +167,9 @@ const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
  cube1 = new THREE.Mesh( geometry, material );
 scene1.add( cube1 );
 }
+
+
+//CRIAÇÃO DE OBSTÁCULOS
 function createRock(){
 
     
@@ -167,8 +179,6 @@ function createRock(){
          rock = new THREE.Mesh( geometry, material );
         rock.position.set(Math.random()*-2,0,cube.position.z-25)
         scene.add( rock )
-    
-    
 }
 function createRock1(){
 
@@ -211,27 +221,10 @@ function createRock1(){
  }
  
 
-function onDocumentKeyDown(event) {
-    var Speed = 0.2;
-    var keyCode = event.which;
-   if(collision==false){
-    if ( keyboard.pressed("A") ){
-        cube.translateX( -Speed );
-        if(cube.position.x<-2.2){
-            cube.position.x=-2.2
-        }
-    }
-    
-if ( keyboard.pressed("D") ){cube.translateX( Speed );
-    if(cube.position.x>0.2)
-    {
-        cube.position.x=0.2
-    }
-   }
-   }
 
-	
-	
+//CONTROLOS
+function onDocumentKeyDown(event) {
+    var Speed = 0.2;	
 	// local transformations
 
 	// move forwards/backwards/left/right
@@ -285,6 +278,7 @@ camera1.lookAt(cube1.position);
 }
 
 
+//FUNÇÃO DE ANIMAÇÃO
 function animate() {
     // render
     renderer.setViewport(0, 0, window.innerWidth/2, window.innerHeight)
@@ -309,7 +303,7 @@ checkCollisions1()
 }
 
 
-
+//RANDOMLY PLACES ROCKS
 function uptadePlane(){
     if(collision==true){
     
@@ -319,8 +313,8 @@ function uptadePlane(){
     cube.translateZ(-0.1)
     if(cube.position.z+5<rock.position.z){
         rock.geometry.dispose();
-rock.material.dispose();
-scene.remove( rock );
+        rock.material.dispose();
+        scene.remove( rock );
         createRock()
     }
     if(cube.position.z+5<tree.position.z){
